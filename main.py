@@ -92,4 +92,4 @@ window.mainloop()
 # TODO: Better databasing - CSV
 # TODO: Require password to get in to program
 # TODO: Update UI
-# TODO:
+# TODO: Add README
