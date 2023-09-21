@@ -89,3 +89,7 @@ add_button.grid(row=4, column=1, columnspan=2, sticky=EW, padx=(0, 17), pady=(0,
 window.mainloop()
 
 # TODO: Fix buttons so when they are clicked they turn blue.
+# TODO: Better databasing - CSV
+# TODO: Require password to get in to program
+# TODO: Update UI
+# TODO:
