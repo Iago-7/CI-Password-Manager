@@ -45,11 +45,23 @@ def save_login_info():
     if website == "" or username == "" or password == "":
         messagebox.showinfo(title="Oops", message="Oops", detail="Please don't leave any fields empty!")
     else:
-        with open("login_storage.json", "w") as file:
-            json.dump(new_entry, file)
-            website_entry.delete(0, END)
-            username_entry.delete(0, END)
-            password_entry.delete(0, END)
+        try:
+            with open("login_storage.json", "r") as file:
+                data = json.load(file)
+
+        except FileNotFoundError:
+            with open("login_storage.json", "w") as file:
+                json.dump(new_entry, file, indent=4)
+        else:
+            data.update(new_entry)
+
+            with open("login_storage.json", "w") as file:
+                json.dump(data, file, indent=4)
+
+        website_entry.delete(0, END)
+        username_entry.delete(0, END)
+        password_entry.delete(0, END)
+        website_entry.focus()
 
 
 window = Tk()
