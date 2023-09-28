@@ -2,6 +2,7 @@ from tkinter import *
 from tkinter import messagebox
 from random import randint, choice, shuffle
 import pyperclip
+import json
 
 
 FONT_NAME = "Arial"
@@ -34,17 +35,18 @@ def save_login_info():
     website = website_entry.get()
     username = username_entry.get()
     password = password_entry.get()
+    new_entry = {
+        website: {
+            "username": username,
+            "password": password,
+        }
+    }
 
     if website == "" or username == "" or password == "":
         messagebox.showinfo(title="Oops", message="Oops", detail="Please don't leave any fields empty!")
     else:
-        is_ok = messagebox.askokcancel(title="", message=website, detail=f"These are the details entered:"
-                                                                         f"\nUsername/Email: {username}\n"
-                                                                         f"Password: {password}\nIs it ok to save?")
-
-    if is_ok:
-        with open("login_storage.txt", "a") as file:
-            file.write(f"{website} | {username} | {password}\n")
+        with open("login_storage.json", "w") as file:
+            json.dump(new_entry, file)
             website_entry.delete(0, END)
             username_entry.delete(0, END)
             password_entry.delete(0, END)
