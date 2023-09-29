@@ -64,6 +64,24 @@ def save_login_info():
         website_entry.focus()
 
 
+def search_for_password():
+    website = website_entry.get()
+
+    try:
+        with open("login_storage.json", "r") as file:
+            data = json.load(file)
+    except FileNotFoundError:
+        messagebox.showinfo(title="Search Result", message="Error", detail="No data file found")
+    else:
+        if website in data:
+            username = data[website]["username"]
+            password = data[website]["password"]
+            messagebox.showinfo(title="Search Result", message=website,
+                                detail=f"Email/Username: {username}\nPassword: {password}")
+        else:
+            messagebox.showinfo(title="Search Result", message="Error", detail=f"No password for {website} exists.")
+
+
 window = Tk()
 window.title("CI Password Manager")
 window.config(bg="white")
@@ -83,7 +101,7 @@ password_label = Label(text="Password:", bg="white", font=(FONT_NAME, FONT_SIZE)
 password_label.grid(row=3, column=0, sticky=E)
 
 website_entry = Entry()
-website_entry.grid(row=1, column=1, columnspan=2, sticky=EW, padx=(0, 17))
+website_entry.grid(row=1, column=1, sticky=EW, padx=(0, 17))
 website_entry.focus()
 
 username_entry = Entry()
@@ -92,9 +110,12 @@ username_entry.grid(row=2, column=1, columnspan=2, sticky=EW, padx=(0, 17))
 password_entry = Entry(width=33)
 password_entry.grid(row=3, column=1, sticky=EW, padx=(0, 17))
 
+search_button = Button(text="Search", highlightthickness=0, highlightbackground="white", command=search_for_password)
+search_button.grid(row=1, column=2, sticky=EW, padx=(0, 17))
+
 generate_password_button = Button(text="Generate Password", highlightthickness=0, highlightbackground="white",
                                   command=generate_password)
-generate_password_button.grid(row=3, column=2, padx=(0, 17))
+generate_password_button.grid(row=3, column=2, sticky=EW, padx=(0, 17))
 
 add_button = Button(text="Add", highlightthickness=0, highlightbackground="white", activebackground="blue",
                     command=save_login_info)
